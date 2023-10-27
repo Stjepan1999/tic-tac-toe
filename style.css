@@ -44,5 +44,30 @@ body {
 .result-info {
     margin-top: 10%;
     display: flex;
-    gap: 20px
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.player-one-result,
+.ties,
+.player-two-result {
+    width: 250px;
+    height: 70px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    color: black;
+}
+
+.player-one-result {
+    background: #219EBC;
+}
+
+.ties {
+    background: #A9BEC8;
+}
+
+.player-two-result {
+    background: #F2B138;
 }
