@@ -1,8 +1,16 @@
 const gameboard = (function(){
-    const board = ['', '', '', '', '', '', '', '', '']
+    const board = ['X', 'O', 'X', 'X', '0', 'O', 'O', 'X', 'O']
 
 
-    const showBoard = () => {return board};
+    const showBoard = () => {
+        const gameboardDiv = document.querySelector(".gameboard")
+        for (let i = 0; i < board.length; i++) {
+            //Select cell by ID and current index
+            const gameboardCell = document.querySelector(`#square${i+1}`); 
+            gameboardCell.textContent = board[i]
+            console.log(board[i])
+        }
+    };
 
     const resetBoard = () => {
         for (let i = 0; i < board.length; i++) {
@@ -22,3 +30,5 @@ function createPlayer(name, symbol) {
 
     return {player}
 }
+
+gameboard.showBoard()
