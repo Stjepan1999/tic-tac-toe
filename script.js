@@ -13,3 +13,12 @@ const gameboard = (function(){
     return {showBoard, resetBoard}
 })()
 
+
+function createPlayer(name, symbol) {
+    const player = {
+        playerName: name,
+        playerSymbol: symbol
+    }
+
+    return {player}
+}
