@@ -30,7 +30,7 @@ body {
 
 }
 
-.gameboard-cell {
+.gameboard-square {
     background: var(--gameboard-color);
     border: 2px solid #F7F7FF;
     display: grid;
