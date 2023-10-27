@@ -3,7 +3,6 @@ const gameboard = (function(){
 
 
     const showBoard = () => {
-        const gameboardDiv = document.querySelector(".gameboard")
         for (let i = 0; i < board.length; i++) {
             //Select cell by ID and current index
             const gameboardSquare = document.querySelector(`#square${i+1}`); 
@@ -14,7 +13,7 @@ const gameboard = (function(){
 
     const makeMove = (index, symbol) => {
         if (board[index] === '') {
-            board[index] = symbol
+            board[index] = symbol;
         }
     }
 
@@ -29,7 +28,7 @@ const gameboard = (function(){
 
 
 function gameController() {
-
+    const board = gameboard
     const players = [
         {
         playerName: "Player one",
@@ -43,15 +42,33 @@ function gameController() {
     let activePlayerIndex = 0;
 
     const getActivePlayer = () => {
-        console.log("test")
-        return players[activePlayerIndex]}
-
+        return players[activePlayerIndex]
+    }
+    
     const switchPlayers = () => {
         activePlayerIndex = 1 - activePlayerIndex
     }
 
-    return {getActivePlayer, switchPlayers}
+    const playRound = (index) => {
+        console.log(`${getActivePlayer().playerName} puts symbol to square ${index + 1}`);
+        board.makeMove(index, getActivePlayer().playerSymbol);
+        board.showBoard()
+
+        switchPlayers();
+        printNewRound();
+
+    }
+
+    const printNewRound = () => {
+        board.showBoard();
+        console.log(`${getActivePlayer().playerName}'s turn.`)
+    }
+
+    printNewRound()
+
+    return {getActivePlayer, switchPlayers, playRound}
 }
 
 
 const game = gameController()
+
