@@ -31,11 +31,11 @@ function gameController() {
     const board = gameboard
     const players = [
         {
-        playerName: "Player one",
+        playerName: "PLAYER ONE",
         playerSymbol: "X",
         playerWins: 0,
     }, {
-        playerName: "Player two",
+        playerName: "PLAYER TWO",
         playerSymbol: "O",
         playerWins: 0,
     }
@@ -43,6 +43,8 @@ function gameController() {
 
     let activePlayerIndex = 0;
     let ties = 0;
+
+    const getPlayers = () => players
 
     const getActivePlayer = () => {
         return players[activePlayerIndex]
@@ -52,14 +54,12 @@ function gameController() {
         activePlayerIndex = 1 - activePlayerIndex
     }
 
-    const playRound = (index) => {
-        console.log(`${getActivePlayer().playerName} puts symbol to square ${index + 1}`);
+    const playRound = (index) => {        
         board.makeMove(index, getActivePlayer().playerSymbol);
         board.showBoard()
 
         checkWinner();
         switchPlayers();
-        printNewRound();
 
     }
 
@@ -82,34 +82,31 @@ function gameController() {
             
             if (isWinner) {
                 getActivePlayer().playerWins++
-                console.log("Winner is: ", getActivePlayer().playerName)
-                console.log("Player one wins: ", players[0].playerWins)
-                console.log("Player two wins: ", players[1].playerWins)
-                console.log("Ties: ", ties)
+                showResult()
+                screenController().showDialog()
                 board.resetBoard()
-                activePlayerIndex = 0;
                 break
             }
         }
         //Checking if it is tie, if no empty space and no winner it is tie
         if (!board.getBoard().includes('') && !isWinner) {
             ties++
-            console.log("It is tie")
-            console.log("Player one wins: ", players[0].playerWins)
-            console.log("Player two wins: ", players[1].playerWins)
-            console.log("Ties: ", ties)
-            activePlayerIndex = 0;
+            showResult()
             board.resetBoard()
         }
     }
 
-    const printNewRound = () => {
-        console.log(`${getActivePlayer().playerName}'s turn.`)
+    const showResult = () => {
+        const playerOneResult = document.querySelector(".player-one-result")
+        const tiesDiv = document.querySelector(".ties")
+        const playerTwoResult = document.querySelector(".player-two-result")
+
+        playerOneResult.textContent = players[0].playerWins
+        playerTwoResult.textContent = players[1].playerWins
+        tiesDiv.textContent = ties
     }
 
-    printNewRound()
-
-    return {getActivePlayer, switchPlayers, playRound}
+    return {getActivePlayer, switchPlayers, playRound, getPlayers}
 }
 
 
@@ -124,15 +121,34 @@ function screenController() {
                 button.textContent = game.getActivePlayer().playerSymbol;
                 const position = event.target.getAttribute("data-position") - 1
                 game.playRound(position)
+                showCurrentPlayer()
             });
         })
-        
     }
 
+    const showCurrentPlayer = () => {
+        const playerInfoDiv = document.querySelector(".player-info");
+        playerInfoDiv.textContent = `${game.getActivePlayer().playerName}'S TURN`
+    }
+
+    const showDialog = () => {
+        const dialog = document.querySelector("dialog")
+        dialog.style.display = "flex";
+
+        const resultMessage = document.querySelector(".dialog-message")
+        resultMessage.textContent = `${game.getActivePlayer().playerName} WON THE ROUND`
+
+        const nextRoundButton = document.querySelector(".next-round-button")
+        nextRoundButton.addEventListener("click", () => {
+            dialog.style.display = "none";
+            board.showBoard()
+        })
+    }
+
+
+
     clickHandlerSquare()
-
-
-
+    return {showDialog}
 }
 
 screenController()

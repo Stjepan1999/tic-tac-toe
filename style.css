@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
 :root {
     --main-background: #023047;
     --gameboard-color:  #219EBC;
@@ -7,8 +9,9 @@ body {
     margin: 0;
     padding: 0;
     background: var(--main-background);
-    color: #F7F7FF
-}
+    color: #F7F7FF;
+    font-family: 'Roboto', sans-serif;
+    }
 
 .header {
     text-align: center;
@@ -20,7 +23,19 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 10%;
+    margin-top: 100px;
+}
+
+.player-info {
+    margin-bottom: 50px;
+    font-size: 30px;
+}
+
+.player-one-result,
+.ties,
+.player-two-result {
+    font-size: 28px;
+    font-weight: 800;
 }
 
 .gameboard {
@@ -38,7 +53,9 @@ body {
     width: 100px;
     height: 100px;
     border-radius: 7px;
-    font-size: 2rem;
+    font-size: 4em;
+    font-weight: 800;
+    color: white;
 }
 
 .gameboard-button:hover {
@@ -54,9 +71,9 @@ body {
     gap: 20px;
 }
 
-.player-one-result,
-.ties,
-.player-two-result {
+.player-one-div,
+.ties-div,
+.player-two-div {
     width: 250px;
     height: 70px;
     border-radius: 10px;
@@ -65,14 +82,33 @@ body {
     color: black;
 }
 
-.player-one-result {
+.player-one-div {
     background: #219EBC;
 }
 
-.ties {
+.ties-div {
     background: #A9BEC8;
 }
 
-.player-two-result {
+.player-two-div {
     background: #F2B138;
+}
+
+
+dialog {
+    display: none;
+    width: 100%;
+    height: 25%;
+    flex-direction: column;
+    align-items: center;
+    background: #3b8eb8;
+}
+
+dialog > .dialog-message {
+    font-size: 2em;
+    font-weight: 800;
+}
+
+dialog > .next-round-button {
+    font-size: 20px;
 }
