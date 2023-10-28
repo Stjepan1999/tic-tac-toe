@@ -33,14 +33,17 @@ function gameController() {
     const players = [
         {
         playerName: "Player one",
-        playerSymbol: "X"
+        playerSymbol: "X",
+        playerWins: 0,
     }, {
         playerName: "Player two",
-        playerSymbol: "O"
+        playerSymbol: "O",
+        playerWins: 0,
     }
     ]
 
     let activePlayerIndex = 0;
+    let ties = 0;
 
     const getActivePlayer = () => {
         return players[activePlayerIndex]
@@ -79,13 +82,21 @@ function gameController() {
             }
             
             if (isWinner) {
+                getActivePlayer().playerWins++
                 console.log("Winner is: ", getActivePlayer().playerName)
+                console.log("Player one wins: ", players[0].playerWins)
+                console.log("Player two wins: ", players[1].playerWins)
+                console.log("Ties: ", ties)
                 break
             }
         }
         //Checking if it is tie, if no empty space and no winner it is tie
         if (!board.getBoard().includes('') && !isWinner) {
+            ties++
             console.log("It is tie")
+            console.log("Player one wins: ", players[0].playerWins)
+            console.log("Player two wins: ", players[1].playerWins)
+            console.log("Ties: ", ties)
         }
     }
 
