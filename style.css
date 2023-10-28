@@ -30,7 +30,7 @@ body {
 
 }
 
-.gameboard-square {
+.gameboard-button {
     background: var(--gameboard-color);
     border: 2px solid #F7F7FF;
     display: grid;
@@ -39,6 +39,11 @@ body {
     height: 100px;
     border-radius: 7px;
     font-size: 2rem;
+}
+
+.gameboard-button:hover {
+    cursor: pointer;
+    background: #1d88a3;
 }
 
 .result-info {

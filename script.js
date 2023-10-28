@@ -6,11 +6,10 @@ const gameboard = (function(){
     const showBoard = () => {
         for (let i = 0; i < board.length; i++) {
             //Select cell by ID and current index
-            const gameboardSquare = document.querySelector(`#square${i+1}`); 
-            gameboardSquare.textContent = board[i]
+            const gameboardButton = document.querySelector(`[data-position="${i+1}"]`); 
+            gameboardButton.textContent = board[i]
         }
     };
-
 
     const makeMove = (index, symbol) => {
         if (board[index] === '') {
@@ -58,7 +57,7 @@ function gameController() {
         board.makeMove(index, getActivePlayer().playerSymbol);
         board.showBoard()
 
-        checkWinner()
+        checkWinner();
         switchPlayers();
         printNewRound();
 
@@ -87,6 +86,8 @@ function gameController() {
                 console.log("Player one wins: ", players[0].playerWins)
                 console.log("Player two wins: ", players[1].playerWins)
                 console.log("Ties: ", ties)
+                board.resetBoard()
+                activePlayerIndex = 0;
                 break
             }
         }
@@ -97,6 +98,8 @@ function gameController() {
             console.log("Player one wins: ", players[0].playerWins)
             console.log("Player two wins: ", players[1].playerWins)
             console.log("Ties: ", ties)
+            activePlayerIndex = 0;
+            board.resetBoard()
         }
     }
 
@@ -110,5 +113,26 @@ function gameController() {
 }
 
 
-const game = gameController()
+function screenController() {
+    const game = gameController();
+    const board = gameboard;
 
+    const clickHandlerSquare = () => {
+        const buttons = document.querySelectorAll(".gameboard-button")
+        buttons.forEach((button) => {
+            button.addEventListener("click", (event) => {
+                button.textContent = game.getActivePlayer().playerSymbol;
+                const position = event.target.getAttribute("data-position") - 1
+                game.playRound(position)
+            });
+        })
+        
+    }
+
+    clickHandlerSquare()
+
+
+
+}
+
+screenController()
