@@ -102,6 +102,8 @@ dialog {
     flex-direction: column;
     align-items: center;
     background: #3b8eb8;
+    border: none;
+    box-shadow: 0px 0px 50px 5px #000000;
 }
 
 dialog > .dialog-message {
@@ -111,4 +113,12 @@ dialog > .dialog-message {
 
 dialog > .next-round-button {
     font-size: 20px;
+    border-radius: 10px;
+    width: 200px;
+    height: 50px;
+    background: #F2B138;
+}
+.next-round-button:hover {
+    cursor: pointer;
+    background: #d1982d;
 }

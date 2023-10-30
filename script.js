@@ -54,13 +54,13 @@ function gameController() {
         activePlayerIndex = 1 - activePlayerIndex
     }
 
-    const playRound = (index) => {        
+    const playRound = (index) => {
         board.makeMove(index, getActivePlayer().playerSymbol);
         board.showBoard()
 
+        console.log(getActivePlayer().playerSymbol)
         checkWinner();
         switchPlayers();
-
     }
 
     const checkWinner = () => {
@@ -141,11 +141,10 @@ function screenController() {
         const nextRoundButton = document.querySelector(".next-round-button")
         nextRoundButton.addEventListener("click", () => {
             dialog.style.display = "none";
+            board.resetBoard()
             board.showBoard()
         })
     }
-
-
 
     clickHandlerSquare()
     return {showDialog}
