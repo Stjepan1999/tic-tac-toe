@@ -11,19 +11,13 @@ const gameboard = (function(){
         }
     };
 
-    const makeMove = (index, symbol) => {
-        if (board[index] === '') {
-            board[index] = symbol;
-        }
-    }
-
     const resetBoard = () => {
         for (let i = 0; i < board.length; i++) {
             board[i] = '';
         }
     }
 
-    return {showBoard, resetBoard, makeMove, getBoard}
+    return {showBoard, resetBoard, getBoard}
 })()
 
 
@@ -55,12 +49,19 @@ function gameController() {
     }
 
     const playRound = (index) => {
-        board.makeMove(index, getActivePlayer().playerSymbol);
-        board.showBoard()
+        if (board.getBoard()[index] === '') {
+            board.getBoard()[index] = getActivePlayer().playerSymbol;
+            board.showBoard();
 
-        console.log(getActivePlayer().playerSymbol)
-        checkWinner();
-        switchPlayers();
+            let gameResult = checkWinner();
+
+            //If gameResult return "winner" or "tie" new round is started with player "X"
+            if (gameResult === undefined) {
+                switchPlayers();
+            } else {
+                activePlayerIndex = 0;
+            }
+        }
     }
 
     const checkWinner = () => {
@@ -83,9 +84,9 @@ function gameController() {
             if (isWinner) {
                 getActivePlayer().playerWins++
                 showResult()
-                screenController().showDialog()
+                showDialog()
                 board.resetBoard()
-                break
+                return "winner"
             }
         }
         //Checking if it is tie, if no empty space and no winner it is tie
@@ -93,6 +94,7 @@ function gameController() {
             ties++
             showResult()
             board.resetBoard()
+            return "tie"
         }
     }
 
@@ -106,21 +108,19 @@ function gameController() {
         tiesDiv.textContent = ties
     }
 
-    return {getActivePlayer, switchPlayers, playRound, getPlayers}
-}
 
 
-function screenController() {
-    const game = gameController();
-    const board = gameboard;
+
 
     const clickHandlerSquare = () => {
         const buttons = document.querySelectorAll(".gameboard-button")
         buttons.forEach((button) => {
             button.addEventListener("click", (event) => {
-                button.textContent = game.getActivePlayer().playerSymbol;
                 const position = event.target.getAttribute("data-position") - 1
-                game.playRound(position)
+                if (board.getBoard()[position] === '') {
+                    button.textContent = getActivePlayer().playerSymbol;
+                }
+                playRound(position)
                 showCurrentPlayer()
             });
         })
@@ -128,7 +128,7 @@ function screenController() {
 
     const showCurrentPlayer = () => {
         const playerInfoDiv = document.querySelector(".player-info");
-        playerInfoDiv.textContent = `${game.getActivePlayer().playerName}'S TURN`
+        playerInfoDiv.textContent = `${getActivePlayer().playerName}'S TURN`
     }
 
     const showDialog = () => {
@@ -136,18 +136,22 @@ function screenController() {
         dialog.style.display = "flex";
 
         const resultMessage = document.querySelector(".dialog-message")
-        resultMessage.textContent = `${game.getActivePlayer().playerName} WON THE ROUND`
+        resultMessage.textContent = `${getActivePlayer().playerName} WON THE ROUND`
 
         const nextRoundButton = document.querySelector(".next-round-button")
         nextRoundButton.addEventListener("click", () => {
             dialog.style.display = "none";
-            board.resetBoard()
             board.showBoard()
         })
     }
 
+
+
     clickHandlerSquare()
-    return {showDialog}
+
+
+    return {getActivePlayer, switchPlayers, playRound, getPlayers}
 }
 
-screenController()
+
+gameController()
